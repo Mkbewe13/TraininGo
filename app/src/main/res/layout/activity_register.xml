@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Register">
+
+
+    <ImageView
+        android:id="@+id/imageView_logo_Register"
+        android:layout_width="346dp"
+        android:layout_height="66dp"
+        android:layout_marginTop="32dp"
+        android:src="@drawable/logo_main"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/editText_email_Register"
+        android:layout_width="225dp"
+        android:layout_height="48dp"
+        android:background="@drawable/custom_edittext_round_rect"
+        android:ems="10"
+        android:fontFamily="@font/righteous"
+        android:hint="Email"
+        android:inputType="textPersonName"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_hintemail_Register" />
+
+
+    <EditText
+        android:id="@+id/editText_password2_Register"
+        android:layout_width="225dp"
+        android:layout_height="48dp"
+        android:background="@drawable/custom_edittext_round_rect"
+        android:ems="10"
+        android:fontFamily="@font/righteous"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_hintpassword2_Register" />
+
+    <EditText
+        android:id="@+id/editText_password_Register"
+        android:layout_width="225dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="92dp"
+        android:background="@drawable/custom_edittext_round_rect"
+        android:ems="10"
+        android:fontFamily="@font/righteous"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toStartOf="@+id/imageView_passwordvisibility_Register"
+        app:layout_constraintHorizontal_bias="0.071"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_hintpassword_Register" />
+
+    <EditText
+        android:id="@+id/editText_name_Register"
+        android:layout_width="225dp"
+        android:layout_height="48dp"
+        android:background="@drawable/custom_edittext_round_rect"
+        android:ems="10"
+        android:fontFamily="@font/righteous"
+        android:hint="Name"
+        android:inputType="textPersonName"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_hintname_Register" />
+
+    <Button
+        android:id="@+id/button_register_Register"
+        android:layout_width="130dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="48dp"
+        android:background="@drawable/custom_button_round_rect"
+        android:fontFamily="@font/righteous"
+        android:text="Register"
+        android:textColor="#ffffff"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText_name_Register"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/textView_hintemail_Register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="52dp"
+        android:fontFamily="@font/righteous"
+        android:text="Type your email adress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.636"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView_logo_Register" />
+
+    <TextView
+        android:id="@+id/textView_hintname_Register"
+        android:layout_width="121dp"
+        android:layout_height="22dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/righteous"
+        android:text="Type your name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.679"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_redhintpassword2_Register" />
+
+    <TextView
+        android:id="@+id/textView_hintpassword_Register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/righteous"
+        android:text="Type password"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.698"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_redhintemail_Register" />
+
+    <TextView
+        android:id="@+id/textView_hintpassword2_Register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/righteous"
+        android:text="Your password again"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.652"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_redhintpassword_Register" />
+
+    <ImageView
+        android:id="@+id/imageView_passwordvisibility_Register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="56dp"
+        app:layout_constraintBottom_toBottomOf="@+id/editText_password_Register"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_hintpassword_Register"
+        app:layout_constraintVertical_bias="0.666"
+        app:srcCompat="@drawable/noeye" />
+
+    <ImageView
+        android:id="@+id/imageView_password2visibility_Register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="56dp"
+        app:layout_constraintBottom_toBottomOf="@+id/editText_password2_Register"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_hintpassword2_Register"
+        app:layout_constraintVertical_bias="0.666"
+        app:srcCompat="@drawable/noeye" />
+
+    <TextView
+        android:id="@+id/textView_redhintemail_Register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/righteous"
+        android:text="TextView"
+        android:textAlignment="center"
+        android:textColor="#cc5055"
+        android:textSize="13sp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText_email_Register" />
+
+    <TextView
+        android:id="@+id/textView_redhintpassword_Register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/righteous"
+        android:text="TextView"
+        android:textAlignment="center"
+        android:textColor="#cc5055"
+        android:textSize="13sp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText_password_Register" />
+
+    <TextView
+        android:id="@+id/textView_redhintpassword2_Register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/righteous"
+        android:text="TextView"
+        android:textAlignment="center"
+        android:textColor="#cc5055"
+        android:textSize="13sp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText_password2_Register" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

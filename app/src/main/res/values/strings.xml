@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">TraininGO 2.0</string>
+
+    <string name="register_too_short_passwd">"Your password must be at least 8 characters long."</string>
+    <string name="register_without_numbers_passwd">Your password must contain at least one number.</string>
+    <string name="register_without_specchar_passwd">Your password must constain at least one special character.</string>
+    <string name="register_without_uppercase_passwd">Your password must contain at least one uppercase letter.</string>
+
+
+    <string name="register_wrongformat_email">Wrong email format.</string>
+
+    <string name="register_notsame_passwd">Passwords are not the same.</string>
+</resources>
