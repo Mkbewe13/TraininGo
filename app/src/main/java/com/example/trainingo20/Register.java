@@ -43,6 +43,10 @@ public class Register extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
+
+
+
+
         textViewRedHintEmail = findViewById(R.id.textView_redhintemail_Register);
         textViewRedHintPassword = findViewById(R.id.textView_redhintpassword_Register);
         textViewRedHintPassword2 = findViewById(R.id.textView_redhintpassword2_Register);
@@ -168,8 +172,10 @@ editTextName.addTextChangedListener(new TextWatcher() {
 
 
 
+        imageViewPasswordVisibility = findViewById(R.id.imageView_passwordvisibility_Register);
+      //  imageViewPasswordVisibility.setBackgroundResource(R.drawable.noeye);
 
-            imageViewPasswordVisibility = findViewById(R.id.imageView_passwordvisibility_Register);
+
             imageViewPasswordVisibility.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -192,8 +198,9 @@ editTextName.addTextChangedListener(new TextWatcher() {
                 }
             });
 
+        imageViewPassword2Visibility = findViewById(R.id.imageView_password2visibility_Register);
+    //    imageViewPassword2Visibility.setBackgroundResource(R.drawable.noeye);
 
-            imageViewPassword2Visibility = findViewById(R.id.imageView_password2visibility_Register);
             imageViewPassword2Visibility.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
