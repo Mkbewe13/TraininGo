@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    tools:context=".CreateNewPlanSecondStep">
+
+
+    <ImageView
+        android:id="@+id/imageView_Logo_CreateNewPlanSecondStep"
+        android:layout_width="346dp"
+        android:layout_height="66dp"
+        android:layout_marginTop="4dp"
+        android:src="@drawable/logo_main"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ListView
+        android:id="@+id/listView_exercises_CreateNewPlanSecondStep"
+        android:layout_width="253dp"
+        android:layout_height="334dp"
+        android:layout_marginTop="24dp"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="17.0sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_caption_CreateNewPlanSecondStep" />
+
+    <Button
+        android:id="@+id/button_next_CreateNewPlanSecondStep"
+        android:layout_width="116dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="40dp"
+        android:background="@drawable/custom_button_round_rect"
+        android:fontFamily="@font/righteous"
+        android:text="Next"
+        android:textAllCaps="false"
+        android:textColor="#ffffff"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_add_CreateNewPlanSecondStep"
+        app:layout_constraintVertical_bias="0.144" />
+
+    <Button
+        android:id="@+id/button_add_CreateNewPlanSecondStep"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:background="@drawable/custom_button_round_rect"
+        android:fontFamily="@font/righteous"
+        android:text="Add"
+        android:textAllCaps="false"
+        android:textColor="#ffffff"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/listView_exercises_CreateNewPlanSecondStep" />
+
+    <TextView
+        android:id="@+id/textView_caption_CreateNewPlanSecondStep"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/righteous"
+        android:text="Step 2: Choose exercises"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView_Logo_CreateNewPlanSecondStep" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

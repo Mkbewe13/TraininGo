@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/Row"
+    android:layout_width="fill_parent"
+    android:layout_height="30sp"
+    android:fontFamily="@font/righteous"
+    android:gravity="center"
+    android:textColor="@color/colorGray"
+    android:background="@drawable/custom_row_round_rect"
+    android:textSize="22sp"></TextView>
