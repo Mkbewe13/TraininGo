@@ -80,13 +80,14 @@
 
     <TextView
         android:id="@+id/textView_daily_MainMenu"
-        android:layout_width="163dp"
-        android:layout_height="82dp"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/custom_textview_round_rect"
         android:drawableTop="@drawable/dumbbell"
         android:fontFamily="@font/righteous"
         android:text="You lifted 1600kg this week"
-
+        android:visibility="invisible"
+        android:animateLayoutChanges="true"
         android:textAlignment="center"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"

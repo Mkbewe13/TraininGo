@@ -21,13 +21,15 @@
         android:id="@+id/button_plan1_MyPlans"
         android:layout_width="220dp"
         android:layout_height="50dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="72dp"
         android:background="@drawable/custom_button_round_rect"
         android:fontFamily="@font/righteous"
-        android:text="Plan1"
+        android:text="+"
         android:textColor="#ffffff"
+        android:textAllCaps="false"
         android:textSize="25sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView_Logo_MyPlans" />
 
@@ -35,33 +37,50 @@
         android:id="@+id/button_plan3_MyPlans"
         android:layout_width="220dp"
         android:layout_height="50dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="80dp"
+        android:textAllCaps="false"
         android:background="@drawable/custom_button_round_rect"
         android:fontFamily="@font/righteous"
         android:text="+"
         android:textColor="#ffffff"
 
-        android:textSize="30sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textSize="25sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_plan2_MyPlans"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/button_plan2_MyPlans" />
 
     <Button
         android:id="@+id/button_plan2_MyPlans"
         android:layout_width="220dp"
         android:layout_height="50dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="80dp"
+        android:textAllCaps="false"
         android:background="@drawable/custom_button_round_rect"
         android:fontFamily="@font/righteous"
         android:text="+"
         android:textColor="#ffffff"
-        android:textSize="30sp"
+        android:textSize="25sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button_plan1_MyPlans" />
+
+    <Button
+        android:id="@+id/button_plan4_MyPlans"
+        android:layout_width="220dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="80dp"
+        android:background="@drawable/custom_button_round_rect"
+        android:fontFamily="@font/righteous"
+        android:textAllCaps="false"
+        android:text="+"
+        android:textColor="#ffffff"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_plan3_MyPlans"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

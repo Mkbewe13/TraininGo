@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    tools:context=".Profile">
+
+
+
+    <ImageView
+        android:id="@+id/imageView_Logo_Profile"
+        android:layout_width="346dp"
+        android:layout_height="66dp"
+        android:layout_marginTop="36dp"
+        android:src="@drawable/logo_main"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView_email_Profile"
+        android:layout_width="280dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="68dp"
+        android:background="@drawable/custom_textview_round_rect_border"
+        android:fontFamily="@font/righteous"
+        android:gravity="center"
+        android:text="TextView"
+        android:textAlignment="center"
+        android:textColor="@color/colorGray"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView_Logo_Profile" />
+
+    <TextView
+        android:id="@+id/textView_labelAge_Profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/righteous"
+        android:text="Age"
+        android:textSize="12sp"
+        android:textColor="@color/colorLightGray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText_age_Profile" />
+
+    <EditText
+        android:id="@+id/editText_name_Profile"
+        android:layout_width="280dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="36dp"
+        android:background="@drawable/custom_edittext_round_rect"
+        android:ems="10"
+        android:fontFamily="@font/righteous"
+        android:hint="Name"
+        android:inputType="textPersonName"
+        android:textAlignment="center"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_email_Profile" />
+
+    <EditText
+        android:id="@+id/editText_age_Profile"
+        android:layout_width="40dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="36dp"
+        android:background="@drawable/custom_edittext_round_rect"
+        android:ems="10"
+        android:fontFamily="@font/righteous"
+        android:inputType="number"
+        android:maxLength="2"
+        android:textAlignment="center"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText_name_Profile" />
+
+    <Button
+        android:id="@+id/button_signOut_Profile"
+        android:layout_width="114dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/custom_button_round_rect"
+        android:fontFamily="@font/righteous"
+        android:text="Sign Out"
+        android:textAllCaps="true"
+        android:textColor="#ffffff"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_changePassword_Profile"
+        app:layout_constraintVertical_bias="0.105" />
+
+    <Button
+        android:id="@+id/button_changePassword_Profile"
+        android:layout_width="203dp"
+        android:layout_height="47dp"
+        android:layout_marginTop="44dp"
+        android:background="@drawable/custom_button_round_rect"
+        android:fontFamily="@font/righteous"
+        android:text="Change password"
+        android:textAllCaps="true"
+        android:textColor="#ffffff"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_save_Profile" />
+
+    <Button
+        android:id="@+id/button_save_Profile"
+        android:layout_width="60dp"
+        android:layout_height="34dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/custom_button_round_rect"
+        android:fontFamily="@font/righteous"
+        android:text="Save"
+        android:textAllCaps="true"
+        android:textColor="#ffffff"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_labelAge_Profile" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

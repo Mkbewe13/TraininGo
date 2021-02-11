@@ -1,8 +1,10 @@
 package com.example.trainingo20;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -14,8 +16,21 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Register extends AppCompatActivity {
 
@@ -37,6 +52,9 @@ public class Register extends AppCompatActivity {
     TextView textViewRedHintPassword;
     TextView textViewRedHintPassword2;
 
+private FirebaseAuth mAuth;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +62,8 @@ public class Register extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
 
+
+        mAuth = FirebaseAuth.getInstance();
 
 
 
@@ -226,13 +246,24 @@ editTextName.addTextChangedListener(new TextWatcher() {
             });
 
 
+
+
+
+
+
+
             buttonRegister = (Button) findViewById(R.id.button_register_Register);
             buttonRegister.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if(CheckFormValidation())
                     {
-                        RegisterAndMoveToMainMenu(editTextName.getText().toString());
+
+
+
+
+                    CreateUser(editTextEmail.getText().toString().trim(),editTextPassword.getText().toString().trim(),editTextName.getText().toString().trim());
+                        //RegisterAndMoveToMainMenu(editTextName.getText().toString());
                     }
                 }
             });
@@ -350,22 +381,71 @@ editTextName.addTextChangedListener(new TextWatcher() {
 
     }
 
-    private void RegisterAndMoveToMainMenu(String NameForToast)
+
+
+
+    private void CreateUser(final String email, String password,final String name)
     {
-        Intent i = new Intent(this,MainMenu.class);
-        i.putExtra("newAccountName",NameForToast);
-        startActivity(i);
+        mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if(task.isSuccessful())
+                {
+                    Toast.makeText(Register.this,"Welcome aboard " + email + ". Your account has been created successfully.",Toast.LENGTH_SHORT).show();
+                    FirebaseUser mUser = mAuth.getCurrentUser();
+                    CreateUserInDataBase(email,name,mUser.getUid());
+                    Intent intent = new Intent(Register.this,MainMenu.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                }
+                else{
+                    Toast.makeText(Register.this,task.getException().toString() + "  "+ email,Toast.LENGTH_LONG).show();
 
-        String toastMessage = "Welcome aboard " + NameForToast + ". Your account has been created successfully.";
-        Toast toast = Toast.makeText(this,toastMessage,Toast.LENGTH_SHORT);
-        View view = toast.getView();
-        TextView text = view.findViewById(android.R.id.message);
-        text.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
-        text.setTextSize(20);
+                }
+            }
+        });
+    }
 
 
-        toast.show();
+    private void CreateUserInDataBase(String email,String name,String userID)
+    {
+        Map<String, Object> newUser = new HashMap<>();
+        newUser.put("name", name);
+        newUser.put("age", "none");
+        newUser.put("email",email);
+
+
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        db.collection("users").document(userID)
+                .set(newUser)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                      //  Log.d(TAG, "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                       // Log.w(TAG, "Error writing document", e);
+                        Toast.makeText(Register.this,e.toString(),Toast.LENGTH_LONG).show();
+                    }
+                });
+
+
+        for(int i= 1;i<=4;i++)
+        {
+            Map<String, Object> trainingPlansSlots = new HashMap<>();
+            trainingPlansSlots.put("slot", String.valueOf(i));
+            trainingPlansSlots.put("status","empty");
+            db.collection("users").document(userID).collection("trainingPlans").add(trainingPlansSlots);
+        }
+
 
     }
+
+
 
 }

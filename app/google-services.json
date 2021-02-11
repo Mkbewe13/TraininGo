@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "958230560126-s2jh5va6c49o3k573bhiqs59m08isrf2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.trainingo20",
+            "certificate_hash": "b76d34b8787bc59f479515ea1041d14eb5dd4f1a"
+          }
+        },
+        {
           "client_id": "958230560126-tls0kan8793uipm81h6d6atsuu62hdep.apps.googleusercontent.com",
           "client_type": 3
         }

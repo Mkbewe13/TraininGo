@@ -1,11 +1,13 @@
 package com.example.trainingo20;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -14,6 +16,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 public class Login extends AppCompatActivity {
 
     public boolean AutoLogin = false;
@@ -21,7 +29,7 @@ public class Login extends AppCompatActivity {
     private String login = null;
     private String[] accountDetails = new String[2];   // do przekazania danych logowania
     private String password = null;
-
+    private FirebaseAuth mAuth;
 
 
     @Override
@@ -29,6 +37,11 @@ public class Login extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        mAuth = FirebaseAuth.getInstance();
+
+
+
 
         final EditText editTextLogin = (EditText) findViewById(R.id.editText_login_Login);
         final EditText editTextPassword = (EditText) findViewById(R.id.editText_password_Login);
@@ -50,6 +63,8 @@ public class Login extends AppCompatActivity {
         });
 
 
+
+
         Button btnRegister = findViewById(R.id.buttom_register_Login);
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,16 +78,29 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                login = editTextLogin.getText().toString();
-                password = editTextPassword.getText().toString();
+                login = editTextLogin.getText().toString().trim();
+                password = editTextPassword.getText().toString().trim();
                 if(CheckLoginData(login,password))
                 {
-                    MoveToMainMenu();
+                    Login(login,password);
+
+
                 }
             }
         });
     }
 
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if(currentUser!=null) {
+            MoveToMainMenu();
+        }
+    }
 
     private void MoveToMainMenu()
     {
@@ -96,36 +124,34 @@ public class Login extends AppCompatActivity {
 
     private boolean CheckLoginData(String chLlogin , String chLpassword)
     {
-      if(chLlogin != null || chLpassword != null)
+      if(chLlogin != null && chLpassword != null)
       {
-        if(chLlogin.equals("admin") && chLpassword.equals("admin")){
-            return true;
-        }
-        else{
-            System.out.println("wyjebka passow log " + chLlogin + " pas " + chLpassword);
 
-
-           Toast toast = Toast.makeText(this,"Wrong login or password. Try again.", Toast.LENGTH_SHORT);
-            View view = toast.getView();
-
-                        //Gets the actual oval background of the Toast then sets the colour filter
-           // view.getBackground().setColorFilter(YOUR_BACKGROUND_COLOUR, PorterDuff.Mode.SRC_IN);
-
-//Gets the TextView from the Toast so it can be editted
-            TextView text = view.findViewById(android.R.id.message);
-           text.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
-           text.setTextSize(20);
-            toast.setGravity(Gravity.BOTTOM, 0, 50);/// tutaj da sie pewnie optymalnie jakos lepiej zeby sie skalowalo a nie 50 na sztywno
-
-            toast.show();
-
-            return false;
-        }
+          return true;
       }
-      System.out.println("wyjebka nullem");
       return false;
-    }
 
+
+}
+
+    private void Login(final String email, String password)
+    {
+        mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if(task.isSuccessful())
+                {
+                    Toast.makeText(Login.this,"Login completed",Toast.LENGTH_SHORT).show();
+
+                    MoveToMainMenu();
+                }
+                else{
+                    Toast.makeText(Login.this,task.getException().toString() ,Toast.LENGTH_LONG).show();
+
+                }
+            }
+        });
+    }
 
 
 }

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/custom_button_round_rect"
+    android:weightSum="100">
+
+
+    <TextView
+        android:gravity="center"
+        android:textAlignment="center"
+        android:text="TextView"
+        android:textSize="16sp"
+        android:fontFamily="@font/righteous"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:id="@+id/textView_ExerciseName_row_createPlanSetVolume"
+        android:layout_weight="12"/>
+
+
+    <TextView
+        android:gravity="center"
+        android:textAlignment="center"
+        android:text="Series"
+        android:textSize="12sp"
+        android:fontFamily="@font/righteous"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:id="@+id/textView_seriesCaption_row_createPlanSetVolume"
+        android:layout_weight="22"/>
+
+
+    <EditText
+        android:gravity="center"
+        android:background="@drawable/custom_edittext_round_rect"
+        android:textAlignment="center"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:inputType="number"
+        android:hint="0-99"
+        android:textSize="12sp"
+        android:maxLength="2"
+        android:fontFamily="@font/righteous"
+        android:id="@+id/editTextNumber_series_row_createPlanSetVolume"
+        android:layout_weight="22"/>
+
+    <TextView
+        android:gravity="center"
+        android:textAlignment="center"
+        android:text="Reps"
+        android:textSize="12sp"
+        android:fontFamily="@font/righteous"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:id="@+id/textView_rowCaption_row_createPlanSetVolume"
+        android:layout_weight="22"/>
+
+    <EditText
+        android:gravity="center"
+        android:textAlignment="center"
+        android:background="@drawable/custom_edittext_round_rect"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:inputType="number"
+        android:hint="0-99"
+        android:maxLength="2"
+        android:textSize="12sp"
+        android:fontFamily="@font/righteous"
+        android:id="@+id/editTextNumber_reps_row_createPlanSetVolume"
+        android:layout_weight="22"/>
+</LinearLayout>

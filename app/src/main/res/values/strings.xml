@@ -10,4 +10,11 @@
     <string name="register_wrongformat_email">Wrong email format.</string>
 
     <string name="register_notsame_passwd">Passwords are not the same.</string>
+
+    <string name="createNewPlan_wrong_name">The name should contain letters and numbers. (Max. 18 characters)</string>
+    <string name="createNewPlan_wrong_about">Desciription should contain letters, numbers, exclamation and question mark. (Max. 144 characters)</string>
+    <string name="addYourOwnExercise_wrong_name">Name should contain only letters and numbers, exclamation and question mark. (Max. 20 characters)</string>
+
+    <string name="myPlansEmptySlot">+</string>
+
 </resources>

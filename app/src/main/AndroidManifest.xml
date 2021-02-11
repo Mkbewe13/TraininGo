@@ -9,7 +9,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AddExercise"></activity>
+        <activity android:name=".DeleteExerciseFromCreatorList"></activity>
+        <activity android:name=".ExerciseChart" />
+        <activity android:name=".Stats" />
+        <activity android:name=".ChangePassword" />
+        <activity android:name=".ChangePasswordReAuth" />
+        <activity android:name=".Profile" />
+        <activity android:name=".CreateNewPlanThirdStep" />
+        <activity android:name=".AddYourOwnExercise" />
+        <activity android:name=".AddExercise" />
         <activity android:name=".CreateNewPlanSecondStep" />
         <activity android:name=".ForgotPassword" />
         <activity android:name=".CreateNewPlan" />
