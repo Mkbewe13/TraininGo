@@ -13,11 +13,16 @@ public class ForgotPassword extends AppCompatActivity {
         setContentView(R.layout.activity_forgot_password);
 
         EditText editTextEmail= findViewById(R.id.editText_email_ForgotPassword);
+
+        //Set email taken from login screen
         Bundle extras = getIntent().getExtras();
         if(extras!= null)
         {
             editTextEmail.setText(extras.getString("email"));
         }
 
+
+
+       //tbc..
     }
 }

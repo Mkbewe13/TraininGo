@@ -35,17 +35,16 @@ import java.util.Map;
 
 public class CreateNewPlan extends AppCompatActivity {
 
-   private EditText planName, planAbout;
-   private TextView nameRedHint, aboutRedHint;
-    Button nextStep;
-    boolean okForNextStep = true;
-    private FirebaseAuth mAuth ;
+    private EditText planName, planAbout;
+    private TextView nameRedHint, aboutRedHint;
+    private Button nextStep;
+    private boolean okForNextStep = true;
+    private FirebaseAuth mAuth;
     private FirebaseUser user;
     private FirebaseFirestore db;
     private int slot;
     private String[] dataExtras;
     private String status;
-
 
 
     @Override
@@ -58,35 +57,27 @@ public class CreateNewPlan extends AppCompatActivity {
         planName = findViewById(R.id.editText_planname_CreateNewPlan);
 
         Bundle extras = getIntent().getExtras();
-        if(!extras.isEmpty()) {
-            if(extras.containsKey("slot")) {
+        if (!extras.isEmpty()) {
+            if (extras.containsKey("slot")) {
                 slot = extras.getInt("slot");
             }
-            if(extras.containsKey("planName") && extras.containsKey("planAbout"))
-            {
+            if (extras.containsKey("planName") && extras.containsKey("planAbout")) {
                 planName.setText(extras.getString("planName"));
                 planAbout.setText(extras.getString("planAbout"));
             }
         }
 
 
-aboutRedHint = findViewById(R.id.textView_redhintabout_CreateNewPlan);
-nameRedHint = findViewById(R.id.textView_redhintname_CreateNewPlan);
+        aboutRedHint = findViewById(R.id.textView_redhintabout_CreateNewPlan);
+        nameRedHint = findViewById(R.id.textView_redhintname_CreateNewPlan);
         aboutRedHint.setText(R.string.createNewPlan_wrong_about);
         nameRedHint.setText(R.string.createNewPlan_wrong_name);
-            dataExtras = new String[3];
+        dataExtras = new String[3];
 
 
-            mAuth = FirebaseAuth.getInstance();
-            user = mAuth.getCurrentUser();
-            db = FirebaseFirestore.getInstance();
-            //create
-
-
-
-        //edit
-
-
+        mAuth = FirebaseAuth.getInstance();
+        user = mAuth.getCurrentUser();
+        db = FirebaseFirestore.getInstance();
 
 
         planName.addTextChangedListener(new TextWatcher() {
@@ -97,18 +88,15 @@ nameRedHint = findViewById(R.id.textView_redhintname_CreateNewPlan);
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    if(!CheckName(s.toString()))
-                    {
-                        planName.setBackgroundResource(R.drawable.custom_edittext_round_rect_invalid);
-                        nameRedHint.setVisibility(View.VISIBLE);
-                        okForNextStep = false;
-                    }
-                    else
-                    {
-                        planName.setBackgroundResource(R.drawable.custom_edittext_round_rect_valid);
-                        nameRedHint.setVisibility(View.INVISIBLE);
-                        okForNextStep = true;
-                    }
+                if (!CheckName(s.toString())) {
+                    planName.setBackgroundResource(R.drawable.custom_edittext_round_rect_invalid);
+                    nameRedHint.setVisibility(View.VISIBLE);
+                    okForNextStep = false;
+                } else {
+                    planName.setBackgroundResource(R.drawable.custom_edittext_round_rect_valid);
+                    nameRedHint.setVisibility(View.INVISIBLE);
+                    okForNextStep = true;
+                }
             }
 
             @Override
@@ -149,61 +137,37 @@ nameRedHint = findViewById(R.id.textView_redhintname_CreateNewPlan);
         nextStep.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(planAbout.getText().length()!=0 && planName.getText().length() != 0){
+                if (planAbout.getText().length() != 0 && planName.getText().length() != 0) {
                     dataExtras[0] = String.valueOf(slot);
                     dataExtras[1] = planName.getText().toString();
                     dataExtras[2] = planAbout.getText().toString();
 
                     // CreateNewPlanDocument();
 
-                    MoveToNextStep(okForNextStep,dataExtras);}
+                    MoveToNextStep(okForNextStep, dataExtras);
+                }
             }
         });
 
 
-
     }
 
 
-
-   private void MoveToNextStep(boolean ok,String[] data)
-    {
-        if(ok) {
+    private void MoveToNextStep(boolean ok, String[] data) {
+        if (ok) {
             Intent i = new Intent(this, CreateNewPlanSecondStep.class);
-            i.putExtra("dataStep1",data);
+            i.putExtra("dataStep1", data);
             startActivity(i);
         }
     }
 
-    private boolean CheckName(String name)
-    {
+    private boolean CheckName(String name) {
 
-        if(name.length() <= 0 || name.length() > 18)
-        {
-
-           return false;
-
-        }
-        else if(name.matches(".*[,./;'\\\\\\[\\]\\{\\}_+\\-=!@#$%^&*()~`<>?|\":;'].*") || name.matches("\\s"))
-        {
-            return false;
-        }
-
-    return true;
-    }
-
-
-    private  boolean CheckAbout(String about)
-    {
-
-        if(about.length() <= 0 || about.length() > 144)
-        {
+        if (name.length() <= 0 || name.length() > 18) {
 
             return false;
 
-        }
-        else if(about.matches(".*[,/;'\\\\\\[\\]\\{\\}_+\\-=@#$%^&*()~`<>|\":;'].*")|| about.matches("\\s"))
-        {
+        } else if (name.matches(".*[,./;'\\\\\\[\\]\\{\\}_+\\-=!@#$%^&*()~`<>?|\":;'].*") || name.matches("\\s")) {
             return false;
         }
 
@@ -211,28 +175,39 @@ nameRedHint = findViewById(R.id.textView_redhintname_CreateNewPlan);
     }
 
 
+    private boolean CheckAbout(String about) {
+
+        if (about.length() <= 0 || about.length() > 144) {
+
+            return false;
+
+        } else if (about.matches(".*[,/;'\\\\\\[\\]\\{\\}_+\\-=@#$%^&*()~`<>|\":;'].*") || about.matches("\\s")) {
+            return false;
+        }
+
+        return true;
+    }
 
 
     @Override
     public void onBackPressed() {
         deleteUnsavedPlans();
-        Intent i = new Intent(this,MyPlans.class);
+        Intent i = new Intent(this, MyPlans.class);
         startActivity(i);
     }
 
 
-
-    private void SetStatus()
+    private void SetStatus()   //not ready
     {
         final CollectionReference colTrainingPlans = db.collection("users").document(user.getUid()).collection("trainingPlans");
-        colTrainingPlans.whereEqualTo("slot",String.valueOf(slot)).limit(1)
+        colTrainingPlans.whereEqualTo("slot", String.valueOf(slot)).limit(1)
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot myDocument : task.getResult()) {
                         //now use id of document
-                            status = myDocument.getString("status");
+                        status = myDocument.getString("status");
                     }
                 } else {
                     // Log.d(TAG, "Error getting documents: ", task.getException());
@@ -241,46 +216,44 @@ nameRedHint = findViewById(R.id.textView_redhintname_CreateNewPlan);
         });
     }
 
-    private  void deleteUnsavedPlans()
-    {
-
+    private void deleteUnsavedPlans() {
 
 
         final CollectionReference colTrainingPlans = db.collection("users").document(user.getUid()).collection("trainingPlans");
 
-        colTrainingPlans.whereEqualTo("slot",String.valueOf(slot)).limit(1)
+        colTrainingPlans.whereEqualTo("slot", String.valueOf(slot)).limit(1)
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot myDocument : task.getResult()) {
                         //now use id of document
-                            if(myDocument.getString("status").equals("tmp")){
-                        colTrainingPlans.document(myDocument.getId())
-                                .update("name",FieldValue.delete(),"about",FieldValue.delete(),"status","empty");
+                        if (myDocument.getString("status").equals("tmp")) {
+                            colTrainingPlans.document(myDocument.getId())
+                                    .update("name", FieldValue.delete(), "about", FieldValue.delete(), "status", "empty");
 
-                                String idDoc = myDocument.getId();
-                                colTrainingPlans.document(idDoc).collection("plan")
-                                        .get()
-                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                if (task.isSuccessful()) {
-                                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                            String idDoc = myDocument.getId();
+                            colTrainingPlans.document(idDoc).collection("plan")
+                                    .get()
+                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                            if (task.isSuccessful()) {
+                                                for (QueryDocumentSnapshot document : task.getResult()) {
 
-                                                        document.getReference().delete();
-                                                       // Log.d(TAG, document.getId() + " => " + document.getData());
-                                                    }
-                                                } else {
-                                                   // Log.d(TAG, "Error getting documents: ", task.getException());
+                                                    document.getReference().delete();
+                                                    // Log.d(TAG, document.getId() + " => " + document.getData());
                                                 }
+                                            } else {
+                                                // Log.d(TAG, "Error getting documents: ", task.getException());
                                             }
-                                        });
+                                        }
+                                    });
 
 
-                        //  Log.d(TAG, document.getId() + " => " + document.getData());
-                    }
+                            //  Log.d(TAG, document.getId() + " => " + document.getData());
                         }
+                    }
                 } else {
                     // Log.d(TAG, "Error getting documents: ", task.getException());
                 }

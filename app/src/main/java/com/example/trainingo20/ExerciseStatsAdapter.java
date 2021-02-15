@@ -12,9 +12,9 @@ import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 
-public class ExerciseStatsAdapter  extends ArrayAdapter<String> {
+public class ExerciseStatsAdapter extends ArrayAdapter<String> {
 
-    private  static  final String TAG = "ExerciseVolumeListAdapter";
+    private static final String TAG = "ExerciseVolumeListAdapter";
 
     private Context mContext;
     int mResource;
@@ -33,7 +33,7 @@ public class ExerciseStatsAdapter  extends ArrayAdapter<String> {
         String exerciseName = getItem(position);
 
         LayoutInflater inflater = LayoutInflater.from(mContext);
-        convertView = inflater.inflate(mResource,parent,false);
+        convertView = inflater.inflate(mResource, parent, false);
 
 
         TextView exerciseNameTextView = convertView.findViewById(R.id.textView_ExerciseName_row_Stats);

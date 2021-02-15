@@ -80,14 +80,13 @@ public class CreateNewPlanSecondStep extends AppCompatActivity {
         LoadExercisesFromDB();
 
 
-
-
         exercisesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String name = (String) parent.getItemAtPosition(position);
+                // delete clicked exercise here and if the user clicks "no" in the next window, the exercise will be added again. Solve slow reload problem
                 DeleteExercise(name);
-               MoveToDeleteExerciseFromCreatorList(name);
+                MoveToDeleteExerciseFromCreatorList(name);
 
             }
 
@@ -121,7 +120,7 @@ public class CreateNewPlanSecondStep extends AppCompatActivity {
         Intent i = new Intent(this, CreateNewPlan.class);
         i.putExtra("slot", slot);
         i.putExtra("planName", planName);
-        i.putExtra("planAbout",planAbout);
+        i.putExtra("planAbout", planAbout);
         startActivity(i);
     }
 
@@ -133,8 +132,8 @@ public class CreateNewPlanSecondStep extends AppCompatActivity {
 
     private void MoveToCreateNewPlanThirdStep() {
         Intent i = new Intent(this, CreateNewPlanThirdStep.class);
-        i.putExtra("slot",slot);
-        i.putExtra("planName",planName);
+        i.putExtra("slot", slot);
+        i.putExtra("planName", planName);
         startActivity(i);
     }
 
@@ -185,11 +184,10 @@ public class CreateNewPlanSecondStep extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                 exercises = new ArrayList<String>();
-                                if(task.isSuccessful())
-                                {
+                                if (task.isSuccessful()) {
 
                                     for (QueryDocumentSnapshot document : task.getResult()) {
-                                      exercises.add( document.getString("name"));
+                                        exercises.add(document.getString("name"));
                                     }
 
 
@@ -208,17 +206,16 @@ public class CreateNewPlanSecondStep extends AppCompatActivity {
         });
     }
 
-       private void MoveToDeleteExerciseFromCreatorList(final String exName)
-        {
-        Intent i = new Intent(this,DeleteExerciseFromCreatorList.class);
+    private void MoveToDeleteExerciseFromCreatorList(final String exName) {
+        Intent i = new Intent(this, DeleteExerciseFromCreatorList.class);
         String[] deleteData = new String[2];
         deleteData[0] = String.valueOf(slot);
         deleteData[1] = exName;
-        i.putExtra("deleteData",deleteData);
+        i.putExtra("deleteData", deleteData);
         startActivity(i);
 
 
-        }
+    }
 
 
     private void DeleteExercise(final String exName) {
@@ -263,8 +260,7 @@ public class CreateNewPlanSecondStep extends AppCompatActivity {
     }
 
 
-    private void SetExtras()
-    {
+    private void SetExtras() {
         final CollectionReference colTrainingPlans = db.collection("users").document(user.getUid()).collection("trainingPlans");
 
         colTrainingPlans.whereEqualTo("slot", String.valueOf(slot)).limit(1)

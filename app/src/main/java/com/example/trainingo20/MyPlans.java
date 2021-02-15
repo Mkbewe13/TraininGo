@@ -20,9 +20,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 public class MyPlans extends AppCompatActivity {
 
-    Button firstSlot,secondSlot,thirdSlot,fourthSlot;
-    FirebaseFirestore db;
-    FirebaseUser user;
+    private Button firstSlot, secondSlot, thirdSlot, fourthSlot;
+    private FirebaseFirestore db;
+    private FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,28 +36,22 @@ public class MyPlans extends AppCompatActivity {
         SetButtons();
 
 
-
         //DeleteTmpPlans();
 
         firstSlot = findViewById(R.id.button_plan1_MyPlans);
-        firstSlot.setText(R.string.myPlansEmptySlot);
         secondSlot = findViewById(R.id.button_plan2_MyPlans);
-        secondSlot.setText(R.string.myPlansEmptySlot);
         thirdSlot = findViewById(R.id.button_plan3_MyPlans);
-        thirdSlot.setText(R.string.myPlansEmptySlot);
         fourthSlot = findViewById(R.id.button_plan4_MyPlans);
 
         Bundle bundle = getIntent().getExtras();
-        if(bundle != null)
-        {
-            if(bundle.containsKey("dataStep3"))
+        if (bundle != null) {
+            if (bundle.containsKey("dataStep3"))   //resolve getting new plan's name to slow problem
             {
-                String[] dataArray = new String[2];
+                String[] dataArray;
                 dataArray = bundle.getStringArray("dataStep3");
-                SetNewName(dataArray[0],dataArray[1]);
+                SetNewName(dataArray[0], dataArray[1]);
             }
         }
-
 
 
         firstSlot.setOnClickListener(new View.OnClickListener() {
@@ -90,40 +84,35 @@ public class MyPlans extends AppCompatActivity {
         });
 
 
-
         firstSlot.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
 
-
+                //tbc...
                 return true;
             }
         });
-
-
 
 
     }
 
     @Override
     public void onBackPressed() {
-        Intent i = new Intent(this,MainMenu.class);
+        Intent i = new Intent(this, MainMenu.class);
         startActivity(i);
     }
 
-    private void MoveToCreatePlan(int slot)
-    {
-        Intent i = new Intent(this,CreateNewPlan.class);
-        i.putExtra("slot",slot);
+    private void MoveToCreatePlan(int slot) {
+        Intent i = new Intent(this, CreateNewPlan.class);
+        i.putExtra("slot", slot);
         startActivity(i);
 
     }
 
 
-    private void SetNewName(String slot,String name)
+    private void SetNewName(String slot, String name)  // set new plan's name after creating or editing
     {
-        switch (slot)
-        {
+        switch (slot) {
             case "1":
                 firstSlot.setText(name);
                 break;
@@ -139,44 +128,38 @@ public class MyPlans extends AppCompatActivity {
         }
     }
 
-    private void SetButtons()
+    private void SetButtons()  // set buttons display   "+" if slot is empty or "plan's name" when slot is taken
     {
         db.collection("users").document(user.getUid()).collection("trainingPlans").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
 
-                if(task.isSuccessful())
-                {
-                    for (QueryDocumentSnapshot qds : task.getResult())
-                    {
-                        switch (qds.getString("slot"))
-                        {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot qds : task.getResult()) {
+                        switch (qds.getString("slot")) {
                             case "1":
-                            switch (qds.getString("status"))
-                            {
-                                case "empty":
-                                    firstSlot.setText("+");
-                                    break;
-                                case "taken":
-                                    firstSlot.setText(qds.getString("name"));
-                                    break;
-                            }
-                            break;
+                                switch (qds.getString("status")) {
+                                    case "empty":
+                                        firstSlot.setText("+");
+                                        break;
+                                    case "taken":
+                                        firstSlot.setText(qds.getString("name"));
+                                        break;
+                                }
+                                break;
 
                             case "2":
-                            switch (qds.getString("status"))
-                            {
-                                case "empty":
-                                    secondSlot.setText("+");
-                                    break;
-                                case "taken":
-                                    secondSlot.setText(qds.getString("name"));
-                                    break;
-                            }
-                            break;
+                                switch (qds.getString("status")) {
+                                    case "empty":
+                                        secondSlot.setText("+");
+                                        break;
+                                    case "taken":
+                                        secondSlot.setText(qds.getString("name"));
+                                        break;
+                                }
+                                break;
                             case "3":
-                                switch (qds.getString("status"))
-                                {
+                                switch (qds.getString("status")) {
                                     case "empty":
                                         thirdSlot.setText("+");
                                         break;
@@ -186,8 +169,7 @@ public class MyPlans extends AppCompatActivity {
                                 }
                                 break;
                             case "4":
-                                switch (qds.getString("status"))
-                                {
+                                switch (qds.getString("status")) {
                                     case "empty":
                                         fourthSlot.setText("+");
                                         break;
@@ -206,8 +188,8 @@ public class MyPlans extends AppCompatActivity {
 
     }
 
-    private void DeleteTmpPlans()
-    {
+    //delete all plans where status is tmp, tmp means changes are not saved. Not done yet.
+    private void DeleteTmpPlans() {
 
         final CollectionReference colTrainingPlans = db.collection("users").document(user.getUid()).collection("trainingPlans");
 
@@ -218,9 +200,9 @@ public class MyPlans extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot myDocument : task.getResult()) {
                         //now use id of document
-                        if(myDocument.getString("status").equals("tmp")){
+                        if (myDocument.getString("status").equals("tmp")) {
                             colTrainingPlans.document(myDocument.getId())
-                                    .update("name", FieldValue.delete(),"about",FieldValue.delete(),"status","empty");
+                                    .update("name", FieldValue.delete(), "about", FieldValue.delete(), "status", "empty");
 
                             String idDoc = myDocument.getId();
                             colTrainingPlans.document(idDoc).collection("plan")
@@ -248,8 +230,8 @@ public class MyPlans extends AppCompatActivity {
                     // Log.d(TAG, "Error getting documents: ", task.getException());
                 }
             }
-        });}
-
+        });
+    }
 
 
 }

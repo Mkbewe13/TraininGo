@@ -20,12 +20,10 @@ import java.util.List;
 
 public class ExerciseVolumeAdapter extends ArrayAdapter<Exercise> {
 
-private  static  final String TAG = "ExerciseVolumeListAdapter";
+    private static final String TAG = "ExerciseVolumeListAdapter";
 
-private Context mContext;
-int mResource;
-
-
+    private Context mContext;
+    int mResource;
 
 
     public ExerciseVolumeAdapter(@NonNull Context context, int resource, @NonNull ArrayList<Exercise> objects) {
@@ -44,7 +42,7 @@ int mResource;
         final EditText series;
 
         LayoutInflater inflater = LayoutInflater.from(mContext);
-        convertView = inflater.inflate(mResource,parent,false);
+        convertView = inflater.inflate(mResource, parent, false);
 
 
         TextView exerciseNameTextView = convertView.findViewById(R.id.textView_ExerciseName_row_createPlanSetVolume);
@@ -61,15 +59,13 @@ int mResource;
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(CheckEdittext(reps) && CheckEdittext(series)) {
+                if (CheckEdittext(reps) && CheckEdittext(series)) {
 
 
                     exercise.setReps(Integer.parseInt(reps.getText().toString()));
                     exercise.setFieldOk(true);
 
-                }
-                else
-                {
+                } else {
                     exercise.setFieldOk(false);
 
                 }
@@ -92,12 +88,11 @@ int mResource;
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (CheckEdittext(series) && CheckEdittext(reps)) {
-                exercise.setSeries(Integer.parseInt(series.getText().toString()));
-                exercise.setFieldOk(true);
-            }
-                else {
+                    exercise.setSeries(Integer.parseInt(series.getText().toString()));
+                    exercise.setFieldOk(true);
+                } else {
 
-                   exercise.setFieldOk(false);
+                    exercise.setFieldOk(false);
                 }
             }
 
@@ -107,20 +102,18 @@ int mResource;
             }
         });
 
-    return convertView;
+        return convertView;
     }
 
 
-    private boolean CheckEdittext(EditText e)
-    {
+    private boolean CheckEdittext(EditText e) {
         String text = e.getText().toString();
-            if( text.length()>0 && text.matches("\\d{1,2}") && !text.matches("0\\d|0"))
-            {
-                e.setBackgroundResource(R.drawable.custom_edittext_round_rect_valid);
-                return true;
-            }
-            e.setBackgroundResource(R.drawable.custom_edittext_round_rect_invalid);
-            return false;
+        if (text.length() > 0 && text.matches("\\d{1,2}") && !text.matches("0\\d|0")) {
+            e.setBackgroundResource(R.drawable.custom_edittext_round_rect_valid);
+            return true;
+        }
+        e.setBackgroundResource(R.drawable.custom_edittext_round_rect_invalid);
+        return false;
 
     }
 

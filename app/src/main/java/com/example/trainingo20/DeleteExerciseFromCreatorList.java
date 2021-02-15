@@ -25,7 +25,7 @@ import java.util.Map;
 public class DeleteExerciseFromCreatorList extends AppCompatActivity {
 
 
-    private Button buttonYes,buttonNo;
+    private Button buttonYes, buttonNo;
     private TextView textViewQuestion;
     private int slot;
     private String exerciseToDelete;
@@ -34,14 +34,13 @@ public class DeleteExerciseFromCreatorList extends AppCompatActivity {
     private FirebaseFirestore db;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_delete_exercise_from_creator_list);
 
         mAuth = FirebaseAuth.getInstance();
-        user  = mAuth.getCurrentUser();
+        user = mAuth.getCurrentUser();
         db = FirebaseFirestore.getInstance();
 
 
@@ -50,12 +49,9 @@ public class DeleteExerciseFromCreatorList extends AppCompatActivity {
         textViewQuestion = findViewById(R.id.textView_Question_DeleteExerciseFromCreatorList);
 
 
-
         Bundle bundle = getIntent().getExtras();
-        if (bundle != null)
-        {
-            if(bundle.containsKey("deleteData"))
-            {
+        if (bundle != null) {
+            if (bundle.containsKey("deleteData")) {
                 String[] deleteData = bundle.getStringArray("deleteData");
                 slot = Integer.parseInt(deleteData[0]);
                 exerciseToDelete = deleteData[1];
@@ -83,33 +79,27 @@ public class DeleteExerciseFromCreatorList extends AppCompatActivity {
         });
 
 
-
     }
 
     @Override
     public void onBackPressed() {
     }
 
-    private void MoveToCreatePlanSecondStep()
-    {
-        Intent i = new Intent(this,CreateNewPlanSecondStep.class);
-        i.putExtra("slot",slot);
+    private void MoveToCreatePlanSecondStep() {
+        Intent i = new Intent(this, CreateNewPlanSecondStep.class);
+        i.putExtra("slot", slot);
         startActivity(i);
     }
 
-    private void AddExercise()
-    {
+    private void AddExercise() {
         final CollectionReference colRef = db.collection("users").document(user.getUid()).collection("trainingPlans");
 
-        colRef.whereEqualTo("slot",String.valueOf(slot)).limit(1)
+        colRef.whereEqualTo("slot", String.valueOf(slot)).limit(1)
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful())
-                {
-                    for (QueryDocumentSnapshot myDoc: task.getResult())
-                    {
-
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot myDoc : task.getResult()) {
 
 
                         Map<String, Object> data = new HashMap<>();
@@ -118,21 +108,14 @@ public class DeleteExerciseFromCreatorList extends AppCompatActivity {
                         colRef.document(myDoc.getId()).collection("plan").add(data);
 
                     }
-                }
-                else
-                {
-                    Toast.makeText(DeleteExerciseFromCreatorList.this,task.getException().toString(),Toast.LENGTH_SHORT);
+                } else {
+                    Toast.makeText(DeleteExerciseFromCreatorList.this, task.getException().toString(), Toast.LENGTH_SHORT);
                 }
             }
         });
 
 
-
-
-
-
     }
-
 
 
 }

@@ -49,9 +49,9 @@ public class AddExercise extends AppCompatActivity {
 
         //GET EXTRAS
         Bundle bundle = getIntent().getExtras();
-        if(bundle != null) {
+        if (bundle != null) {
 
-          slot = bundle.getInt("slot");
+            slot = bundle.getInt("slot");
         }
         //
 
@@ -61,18 +61,18 @@ public class AddExercise extends AppCompatActivity {
 
 
         //LOAD EXERCISES LIST FROM DB
-       exercises = new ArrayList<String>();
+        exercises = new ArrayList<String>();
 
         //FIRST - USER EXERCISES
         db.collection("users").document(user.getUid()).collection("userExercises").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful())
-                {
+                if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot doc : task.getResult()) {
 
                         String tmp = doc.get("name").toString();
-                        exercises.add(tmp.substring(0,1).toUpperCase() + tmp.substring(1).toLowerCase());
+                        if (tmp.length() != 0)
+                            exercises.add(tmp.substring(0, 1).toUpperCase() + tmp.substring(1).toLowerCase());
 
 
                     }
@@ -80,7 +80,6 @@ public class AddExercise extends AppCompatActivity {
                 }
             }
         });
-
 
 
         //THEN GLOBAL
@@ -97,19 +96,16 @@ public class AddExercise extends AppCompatActivity {
                             for (QueryDocumentSnapshot document : task.getResult()) {
 
                                 String tmp = document.get("name").toString();
-                                exercises.add(tmp.substring(0,1).toUpperCase() + tmp.substring(1).toLowerCase());
+                                exercises.add(tmp.substring(0, 1).toUpperCase() + tmp.substring(1).toLowerCase());
 
 
                             }
 
 
-
-
-
                             adapter = new ArrayAdapter<String>(AddExercise.this, R.layout.row_add_exercise, exercises);
                             exercisesList.setAdapter(adapter);
                         } else {
-                            Toast.makeText(AddExercise.this,task.getException().toString(),Toast.LENGTH_LONG).show();
+                            Toast.makeText(AddExercise.this, task.getException().toString(), Toast.LENGTH_LONG).show();
 
                         }
                     }
@@ -127,19 +123,18 @@ public class AddExercise extends AppCompatActivity {
 
                 final CollectionReference colRef = db.collection("users").document(user.getUid()).collection("trainingPlans");
 
-                colRef.whereEqualTo("slot",String.valueOf(slot)).limit(1)
+                colRef.whereEqualTo("slot", String.valueOf(slot)).limit(1)
                         .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful())
-                        {
-                            for (final QueryDocumentSnapshot myDoc: task.getResult())
-                            {
+                        if (task.isSuccessful()) {
+                            for (final QueryDocumentSnapshot myDoc : task.getResult()) {
 
                                 CollectionReference myCol = colRef.document(myDoc.getId()).collection("plan");
                                 myCol.get()
                                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                             String docId = myDoc.getId();
+
                                             @Override
                                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                                 if (task.isSuccessful()) {
@@ -147,23 +142,19 @@ public class AddExercise extends AppCompatActivity {
                                                     for (QueryDocumentSnapshot document : task.getResult()) {
 
 
-                                                        if(document.getString("name").toLowerCase().equals(name.toLowerCase()))
-                                                        {
+                                                        if (document.getString("name").toLowerCase().equals(name.toLowerCase())) {
 
                                                             check = true;
                                                         }
 
                                                     }
-                                                            if(!check)
-                                                            {
-                                                                AddExerciseToDbPlan(name);
-                                                                MoveBackToCreatePlanSecondStepExerciseAdded();
-                                                            }
-                                                            else
-                                                            {
-                                                                Toast.makeText(AddExercise.this,"You already have this exercise in your plan.",Toast.LENGTH_SHORT).show();
-                                                                MoveBackToCreatePlanSecondStepExerciseAdded();
-                                                            }
+                                                    if (!check) {
+                                                        AddExerciseToDbPlan(name);
+                                                        MoveBackToCreatePlanSecondStepExerciseAdded();
+                                                    } else {
+                                                        Toast.makeText(AddExercise.this, "You already have this exercise in your plan.", Toast.LENGTH_SHORT).show();
+                                                        MoveBackToCreatePlanSecondStepExerciseAdded();
+                                                    }
 
                                                 } else {
 
@@ -171,21 +162,13 @@ public class AddExercise extends AppCompatActivity {
                                             }
                                         });
                             }
-                        }
-                        else
-                        {
-                            Toast.makeText(AddExercise.this,task.getException().toString(),Toast.LENGTH_SHORT);
+                        } else {
+                            Toast.makeText(AddExercise.this, task.getException().toString(), Toast.LENGTH_SHORT);
                         }
                     }
                 });
-            //
+                //
 
-
-
-
-
-                //AddExerciseToDbPlan(name);
-              //  MoveBackToCreatePlanSecondStepExerciseAdded();
 
             }
 
@@ -193,64 +176,52 @@ public class AddExercise extends AppCompatActivity {
         });
 
         addOwnExercise = findViewById(R.id.button_addOwnExercise_AddExercise);
-      addOwnExercise.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-               MoveToAddYourOwnExercise();
+        addOwnExercise.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MoveToAddYourOwnExercise();
 
             }
-       });
+        });
 
     }
 
 
-
-    private void MoveToAddYourOwnExercise()
-    {
-        Intent i = new Intent(this,AddYourOwnExercise.class);
-        i.putExtra("slot",slot);
+    private void MoveToAddYourOwnExercise() {
+        Intent i = new Intent(this, AddYourOwnExercise.class);
+        i.putExtra("slot", slot);
         startActivity(i);
 
     }
 
-    private void MoveBackToCreatePlanSecondStepExerciseAdded()
-    {
+    private void MoveBackToCreatePlanSecondStepExerciseAdded() {
         Intent i = new Intent(this, CreateNewPlanSecondStep.class);
-        i.putExtra("slot",slot);
+        i.putExtra("slot", slot);
         startActivity(i);
     }
 
 
-    private void AddExerciseToDbPlan(final String exerciseName)
-    {
+    private void AddExerciseToDbPlan(final String exerciseName) {
         final CollectionReference colRef = db.collection("users").document(user.getUid()).collection("trainingPlans");
 
-        colRef.whereEqualTo("slot",String.valueOf(slot)).limit(1)
+        colRef.whereEqualTo("slot", String.valueOf(slot)).limit(1)
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful())
-                {
-                    for (final QueryDocumentSnapshot myDoc: task.getResult())
-                    {
-
+                if (task.isSuccessful()) {
+                    for (final QueryDocumentSnapshot myDoc : task.getResult()) {
 
 
                         Map<String, Object> data = new HashMap<>();
-
 
 
                         data.put("name", exerciseName);
                         colRef.document(myDoc.getId()).collection("plan").add(data);
 
 
-
-
                     }
-                }
-                else
-                {
-                    Toast.makeText(AddExercise.this,task.getException().toString(),Toast.LENGTH_SHORT);
+                } else {
+                    Toast.makeText(AddExercise.this, task.getException().toString(), Toast.LENGTH_SHORT);
                 }
             }
         });
@@ -258,58 +229,10 @@ public class AddExercise extends AppCompatActivity {
     }
 
 
-        private void Addex(String exName,String docTrainingId)
-        {
-           /* final CollectionReference colRef = db.collection("users").document(user.getUid()).collection("trainingPlans")
-                    .document(docTrainingId).collection("plan");
-
-            Map<String, Object> data = new HashMap<>();
-
-
-
-            data.put("name", exName);
-            colRef.add(data);
-
-
-
-
-            CollectionReference myCol = colRef.document(myDoc.getId()).collection("plan");
-
-            myCol.get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        String docId = myDoc.getId();
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()) {
-                                boolean check = false;
-                                for (QueryDocumentSnapshot document : task.getResult()) {
-
-
-                                    if(document.getString("name").toLowerCase().equals(exerciseName.toLowerCase()))
-                                    {
-
-                                        check = true;
-                                    }
-
-                                }
-
-
-                            } else {
-
-                            }
-                        }
-                    });
-
-            */
-        }
-
-
-
-
     @Override
     public void onBackPressed() {
-        Intent i = new Intent(this,CreateNewPlanSecondStep.class);
-        i.putExtra("slot",slot);
+        Intent i = new Intent(this, CreateNewPlanSecondStep.class);
+        i.putExtra("slot", slot);
         startActivity(i);
     }
 }

@@ -37,8 +37,10 @@ public class Profile extends AppCompatActivity {
     private TextView labelAge;
     private TextView email;
     private boolean changesToSave = false;
-    private boolean firstLoadName = false;
-    private boolean firstLoadAge = false;
+
+
+    private boolean firstLoadName = false;  //variables that make textwatcher not detect text changes on load data from database on start
+    private boolean firstLoadAge = false; // ^
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -48,19 +50,17 @@ public class Profile extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
 
-        email =findViewById(R.id.textView_email_Profile);
-        email.setText(mAuth.getCurrentUser().getEmail().toString().trim());
-
-
+        email = findViewById(R.id.textView_email_Profile);
         labelAge = findViewById(R.id.textView_labelAge_Profile);
         name = findViewById(R.id.editText_name_Profile);
         age = findViewById(R.id.editText_age_Profile);
         save = findViewById(R.id.button_save_Profile);
-        save.setVisibility(View.INVISIBLE);
         signOut = findViewById(R.id.button_signOut_Profile);
         changePassword = findViewById(R.id.button_changePassword_Profile);
 
-        SetFieldsDatabaseData();
+        save.setVisibility(View.INVISIBLE);
+
+        SetFieldsDatabaseData();   //set textview fields with data from user's database
 
         name.addTextChangedListener(new TextWatcher() {
             @Override
@@ -70,7 +70,7 @@ public class Profile extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(!firstLoadName) {
+                if (!firstLoadName) {
                     ShowSave();
                     changesToSave = true;
                     if (!CheckName(name.getText().toString())) {
@@ -78,9 +78,8 @@ public class Profile extends AppCompatActivity {
                     } else
                         name.setBackgroundResource(R.drawable.custom_edittext_round_rect_valid);
 
-                }
-                else
-                    firstLoadName=false;
+                } else
+                    firstLoadName = false;
             }
 
             @Override
@@ -97,15 +96,14 @@ public class Profile extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(!firstLoadAge){
+                if (!firstLoadAge) {
                     ShowSave();
                     changesToSave = true;
                     if (!CheckAge(age.getText().toString().trim())) {
                         age.setBackgroundResource(R.drawable.custom_edittext_round_rect_invalid);
                     } else
                         age.setBackgroundResource(R.drawable.custom_edittext_round_rect_valid);
-                }
-                else
+                } else
                     firstLoadAge = false;
             }
 
@@ -119,10 +117,9 @@ public class Profile extends AppCompatActivity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(changesToSave && CheckName(name.getText().toString())  && CheckAge(age.getText().toString()))
-                {
-                    //updatedanych w bazie
-                    SaveToDatabase(name.getText().toString(),age.getText().toString());
+                if (changesToSave && CheckName(name.getText().toString()) && CheckAge(age.getText().toString())) {
+
+                    SaveToDatabase(name.getText().toString(), age.getText().toString());
                     HideSave();
                     changesToSave = false;
                 }
@@ -133,7 +130,7 @@ public class Profile extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mAuth.signOut();
-                Intent i = new Intent(Profile.this,Login.class);
+                Intent i = new Intent(Profile.this, Login.class);
                 startActivity(i);
             }
         });
@@ -144,67 +141,57 @@ public class Profile extends AppCompatActivity {
 
                 MoveToChangePassword();
 
-                 }
-                });
+            }
+        });
 
     }
 
 
     @Override
     public void onBackPressed() {
-        Intent i = new Intent(this,MainMenu.class);
+        Intent i = new Intent(this, MainMenu.class);
         startActivity(i);
     }
 
-    private boolean CheckName(String name)
-    {
-        if(name.length() > 0)
-        {
+    private boolean CheckName(String name) {
+        if (name.length() > 0) {
             return true;
-        }
-        else
+        } else
             return false;
     }
 
-    private boolean CheckAge(String age)
-    {
-        if( age.matches("0\\d|0") || !age.matches("\\d{1,2}"))
-        {
+    private boolean CheckAge(String age) {
+        if (age.matches("0\\d|0") || !age.matches("\\d{1,2}")) {
             return false;
-        }
-        else
+        } else
             return true;
     }
 
 
-    private void ShowSave()
-    {
+    private void ShowSave() {
         save.setVisibility(View.VISIBLE);
         signOut.setVisibility(View.INVISIBLE);
         changePassword.setVisibility(View.INVISIBLE);
 
     }
 
-    private void HideSave()
-    {
+    private void HideSave() {
         save.setVisibility(View.INVISIBLE);
         signOut.setVisibility(View.VISIBLE);
         changePassword.setVisibility(View.VISIBLE);
     }
 
-    private void MoveToChangePassword()
-    {
-        Intent i = new Intent(this,ChangePasswordReAuth.class);
+    private void MoveToChangePassword() {
+        Intent i = new Intent(this, ChangePasswordReAuth.class);
         startActivity(i);
 
     }
 
-    private void SaveToDatabase(String Name, String Age)
-    {
+    private void SaveToDatabase(String Name, String Age) {
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference documentReference = db.collection("users").document(mAuth.getCurrentUser().getUid());
-        documentReference.update("name",Name,"age",Age).addOnSuccessListener(new OnSuccessListener<Void>() {
+        documentReference.update("name", Name, "age", Age).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 //Log.d(TAG, "DocumentSnapshot successfully updated!");
@@ -214,38 +201,37 @@ public class Profile extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Exception e) {
                 //Log.w(TAG, "Error updating document", e);
-                Toast.makeText(Profile.this,e.toString(),Toast.LENGTH_SHORT);
+                Toast.makeText(Profile.this, e.toString(), Toast.LENGTH_SHORT);
             }
         });
     }
 
-    private void SetFieldsDatabaseData()
-    {
+    private void SetFieldsDatabaseData() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference documentReference = db.collection("users").document(mAuth.getCurrentUser().getUid());
-                firstLoadName =true;
-                firstLoadAge = true;
+        firstLoadName = true;
+        firstLoadAge = true;
         documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                     //   Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                        //   Log.d(TAG, "DocumentSnapshot data: " + document.getData());
 
 
                         age.setText(document.getString("age"));
 
                         name.setText(document.getString("name"));
-
+                        email.setText(document.getString("email"));
 
                     } else {
-                       // Log.d(TAG, "No such document");
-                        Toast.makeText(Profile.this,"No such document",Toast.LENGTH_SHORT);
+                        // Log.d(TAG, "No such document");
+                        Toast.makeText(Profile.this, "No such document", Toast.LENGTH_SHORT);
                     }
                 } else {
-                   // Log.d(TAG, "get failed with ", task.getException());
-                    Toast.makeText(Profile.this,"get failed with "+task.getException(),Toast.LENGTH_SHORT);
+                    // Log.d(TAG, "get failed with ", task.getException());
+                    Toast.makeText(Profile.this, "get failed with " + task.getException(), Toast.LENGTH_SHORT);
                 }
             }
         });

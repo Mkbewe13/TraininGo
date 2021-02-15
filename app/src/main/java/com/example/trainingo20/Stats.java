@@ -38,7 +38,7 @@ public class Stats extends AppCompatActivity {
         exerciseList = findViewById(R.id.listView_usedExercises_Stats);
 
 
-
+        // Set exercises list with data from database
         exercises = new ArrayList<String>();
         db.collection("exercisesGlobal")
                 .get()
@@ -50,67 +50,65 @@ public class Stats extends AppCompatActivity {
 
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 String tmp = document.get("name").toString();
-                                exercises.add(tmp.substring(0,1).toUpperCase() + tmp.substring(1).toLowerCase());
+                                exercises.add(tmp.substring(0, 1).toUpperCase() + tmp.substring(1).toLowerCase());
 
 
                             }
-                            ExerciseStatsAdapter adapter = new ExerciseStatsAdapter(Stats.this,R.layout.row_exercises_stats,exercises);
+                            ExerciseStatsAdapter adapter = new ExerciseStatsAdapter(Stats.this, R.layout.row_exercises_stats, exercises);
                             exerciseList.setAdapter(adapter);
                         } else {
-                            Toast.makeText(Stats.this,task.getException().toString(),Toast.LENGTH_LONG).show();
+                            Toast.makeText(Stats.this, task.getException().toString(), Toast.LENGTH_LONG).show();
 
                         }
                     }
                 });
 
 
+        //dynamic searching - not working yet - tbc..
+        searchExercises.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-    searchExercises.addTextChangedListener(new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
-        }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
+                FirebaseFirestore.getInstance().collection("exercisesGlobal")
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    // Toast.makeText(Stats.this,"Success",Toast.LENGTH_LONG).show();
 
-            FirebaseFirestore.getInstance().collection("exercisesGlobal")
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()) {
-                                // Toast.makeText(Stats.this,"Success",Toast.LENGTH_LONG).show();
+                                    for (QueryDocumentSnapshot document : task.getResult()) {
 
-                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                        if (document.getString("name").matches("." + searchExercises.getText().toString() + ".")) {
+                                            String tmp = document.get("name").toString();
+                                            exercises.add(tmp.substring(0, 1).toUpperCase() + tmp.substring(1).toLowerCase());
+                                        }
 
-                                    if(document.getString("name").matches("."+searchExercises.getText().toString()+"."))
-                                    {
-                                        String tmp = document.get("name").toString();
-                                        exercises.add(tmp.substring(0, 1).toUpperCase() + tmp.substring(1).toLowerCase());
                                     }
+                                    ExerciseStatsAdapter adapter = new ExerciseStatsAdapter(Stats.this, R.layout.row_exercises_stats, exercises);
+                                    exerciseList.setAdapter(adapter);
+                                } else {
+                                    Toast.makeText(Stats.this, task.getException().toString(), Toast.LENGTH_LONG).show();
 
                                 }
-                                ExerciseStatsAdapter adapter = new ExerciseStatsAdapter(Stats.this,R.layout.row_exercises_stats,exercises);
-                                exerciseList.setAdapter(adapter);
-                            } else {
-                                Toast.makeText(Stats.this,task.getException().toString(),Toast.LENGTH_LONG).show();
-
                             }
-                        }
-                    });
+                        });
 
-        }
+            }
 
-        @Override
-        public void afterTextChanged(Editable s) {
+            @Override
+            public void afterTextChanged(Editable s) {
 
-        }
-    });
-
+            }
+        });
 
 
-
+        //tbc...
 
 
     }

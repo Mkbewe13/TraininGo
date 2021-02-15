@@ -31,7 +31,7 @@ public class ChangePassword extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseUser user;
     private TextView textViewRedHintPassword;
-    private boolean password1OK =false;
+    private boolean password1OK = false;
 
     private ImageView password1Visibility;
     private ImageView password2Visibility;
@@ -57,13 +57,10 @@ public class ChangePassword extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(CheckPassword(password1.getText().toString()))
-                {
+                if (CheckPassword(password1.getText().toString())) {
                     password1.setBackgroundResource(R.drawable.custom_edittext_round_rect_valid);
                     password1OK = true;
-                }
-                else
-                {
+                } else {
                     password1.setBackgroundResource(R.drawable.custom_edittext_round_rect_invalid);
                     password1OK = false;
                 }
@@ -83,12 +80,9 @@ public class ChangePassword extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(CheckBothPasswords(password1.getText().toString(),password2.getText().toString()))
-                {
+                if (CheckBothPasswords(password1.getText().toString(), password2.getText().toString())) {
                     password2.setBackgroundResource(R.drawable.custom_edittext_round_rect_valid);
-                }
-                else
-                {
+                } else {
                     password2.setBackgroundResource(R.drawable.custom_edittext_round_rect_invalid);
                 }
             }
@@ -102,25 +96,22 @@ public class ChangePassword extends AppCompatActivity {
 
         password1Visibility = findViewById(R.id.imageView_passwordvisibility_ChangePassword);
         password2Visibility = findViewById(R.id.imageView_passwordvisibility2_ChangePassword);
-        final Typeface typeface = ResourcesCompat.getFont(this,R.font.righteous);
+        final Typeface typeface = ResourcesCompat.getFont(this, R.font.righteous);
 
         password1Visibility.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!pass1IsVisible)
-                {
-                    pass1IsVisible= true;
+                if (!pass1IsVisible) {
+                    pass1IsVisible = true;
                     password1Visibility.setBackgroundResource(R.drawable.eye);
                     password1.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
                     password1.setTypeface(typeface);
 
 
-                }
-                else
-                {
-                    pass1IsVisible= false;
+                } else {
+                    pass1IsVisible = false;
                     password1Visibility.setBackgroundResource(R.drawable.noeye);
-                    password1.setInputType(InputType.TYPE_CLASS_TEXT|InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    password1.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                     password1.setTypeface(typeface);
                 }
             }
@@ -129,20 +120,17 @@ public class ChangePassword extends AppCompatActivity {
         password2Visibility.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!pass2IsVisible)
-                {
-                    pass2IsVisible= true;
+                if (!pass2IsVisible) {
+                    pass2IsVisible = true;
                     password2Visibility.setBackgroundResource(R.drawable.eye);
                     password2.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
                     password2.setTypeface(typeface);
 
 
-                }
-                else
-                {
-                    pass2IsVisible= false;
+                } else {
+                    pass2IsVisible = false;
                     password2Visibility.setBackgroundResource(R.drawable.noeye);
-                    password2.setInputType(InputType.TYPE_CLASS_TEXT|InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    password2.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                     password2.setTypeface(typeface);
                 }
             }
@@ -155,14 +143,13 @@ public class ChangePassword extends AppCompatActivity {
         changePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(CheckBothPasswords(password1.getText().toString(),password2.getText().toString()))
-                {
+                if (CheckBothPasswords(password1.getText().toString(), password2.getText().toString())) {
                     user.updatePassword(password1.getText().toString().trim())
                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
-                                        Toast.makeText(ChangePassword.this,"Password changed successfully.",Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(ChangePassword.this, "Password changed successfully.", Toast.LENGTH_SHORT).show();
                                         MoveToProfile();
                                     }
                                 }
@@ -172,46 +159,37 @@ public class ChangePassword extends AppCompatActivity {
         });
 
 
-
-
-
-
     }
 
     @Override
     public void onBackPressed() {
-        Intent i = new Intent(this,Profile.class);
+        Intent i = new Intent(this, Profile.class);
         startActivity(i);
     }
 
 
-    private boolean CheckPassword(String chpassword)
-    {
+    private boolean CheckPassword(String chpassword) {
         boolean okPassword = true;
-        if(chpassword.matches(".{8,}"))   //czy jest 8+ znakow
+        if (chpassword.matches(".{8,}"))   //czy jest 8+ znakow
         {
             textViewRedHintPassword.setVisibility(View.INVISIBLE);
-            if(chpassword.matches(".*\\d.*"))//czy ma cyfre w haśle
+            if (chpassword.matches(".*\\d.*"))//czy ma cyfre w haśle
             {
                 textViewRedHintPassword.setVisibility(View.INVISIBLE);
                 {
-                    if(chpassword.matches(".*[A-Z].*"))  //czy ma duza litere
+                    if (chpassword.matches(".*[A-Z].*"))  //czy ma duza litere
                     {
                         textViewRedHintPassword.setVisibility(View.INVISIBLE);
-                        if(chpassword.matches(".*[,./;'\\\\\\[\\]\\{\\}_+\\-=!@#$%^&*()~`<>?|\":;'].*")) //czy ma znak
+                        if (chpassword.matches(".*[,./;'\\\\\\[\\]\\{\\}_+\\-=!@#$%^&*()~`<>?|\":;'].*")) //czy ma znak
                         {
                             textViewRedHintPassword.setVisibility(View.INVISIBLE);
-                        }
-                        else
-                        {
+                        } else {
                             okPassword = false;
 
                             textViewRedHintPassword.setText(R.string.register_without_specchar_passwd);
                             textViewRedHintPassword.setVisibility(View.VISIBLE);
                         }
-                    }
-                    else
-                    {
+                    } else {
                         okPassword = false;
 
                         textViewRedHintPassword.setText(R.string.register_without_uppercase_passwd);
@@ -219,18 +197,14 @@ public class ChangePassword extends AppCompatActivity {
                     }
 
                 }
-            }
-            else
-            {
+            } else {
                 okPassword = false;
 
                 textViewRedHintPassword.setText(R.string.register_without_numbers_passwd);
                 textViewRedHintPassword.setVisibility(View.VISIBLE);
             }
-        }
-        else
-        {
-            okPassword =false;
+        } else {
+            okPassword = false;
 
 
             textViewRedHintPassword.setText(R.string.register_too_short_passwd);
@@ -242,19 +216,16 @@ public class ChangePassword extends AppCompatActivity {
     }
 
 
-    private boolean CheckBothPasswords(String password1,String password2)
-    {
-        if(password1OK && password1.equals(password2))
-        {
+    private boolean CheckBothPasswords(String password1, String password2) {
+        if (password1OK && password1.equals(password2)) {
             return true;
         }
         return false;
 
     }
 
-    private void MoveToProfile()
-    {
-        Intent i = new Intent(this,Profile.class);
+    private void MoveToProfile() {
+        Intent i = new Intent(this, Profile.class);
         startActivity(i);
     }
 }

@@ -44,40 +44,43 @@ public class MainMenu extends AppCompatActivity {
 
         dailyMessage = findViewById(R.id.textView_daily_MainMenu);
         myPlans = findViewById(R.id.button_myplans_MainMenu);
-
-        myPlans.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View v) {
-     MoveToMyPlans();
-    }
-});
+        stats = findViewById(R.id.button_stats_MainMenu);
+        go = findViewById(R.id.button_go_MainMenu);
 
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
-
         db = FirebaseFirestore.getInstance();
 
-SetDailyMessage();
+        SetDailyMessage();
 
+        myPlans.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MoveToMyPlans();
+            }
+        });
 
-     stats = findViewById(R.id.button_stats_MainMenu);
-     stats.setOnClickListener(new View.OnClickListener() {
-         @Override
-         public void onClick(View v) {
+        stats.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MoveToStats();
+            }
+        });
 
+        profile = findViewById(R.id.button_profile_MainMenu);
+        profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MoveToProfile();
+            }
+        });
 
-MoveToStats();
-
-         }
-     });
-
-     profile = findViewById(R.id.button_profile_MainMenu);
-     profile.setOnClickListener(new View.OnClickListener() {
-         @Override
-         public void onClick(View v) {
-             MoveToProfile();
-         }
-     });
+        go.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainMenu.this, "Not yet", Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 
@@ -87,28 +90,23 @@ MoveToStats();
     }
 
 
-
-    private void MoveToMyPlans()
-    {
-        Intent i = new Intent(this,MyPlans.class);
+    private void MoveToMyPlans() {
+        Intent i = new Intent(this, MyPlans.class);
         startActivity(i);
 
     }
 
-    private void MoveToStats()
-    {
-        Intent i = new Intent(this,Stats.class);
+    private void MoveToStats() {
+        Intent i = new Intent(this, Stats.class);
         startActivity(i);
     }
 
-    private void MoveToProfile()
-    {
-        Intent i = new Intent(this,Profile.class);
+    private void MoveToProfile() {
+        Intent i = new Intent(this, Profile.class);
         startActivity(i);
     }
 
-    private void SetDailyMessage()
-    {
+    private void SetDailyMessage() {
         DocumentReference docRef = db.collection("users").document(user.getUid());
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -117,7 +115,7 @@ MoveToStats();
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
                         // Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                        dailyMessage.setText("Hello "+document.getString("name")+". You lifted 1600kg this week");
+                        dailyMessage.setText("Hello " + document.getString("name") + ". You lifted 1600kg this week");
                         dailyMessage.setVisibility(View.VISIBLE);
 
                         //Toast.makeText(MainMenu.this,document.getString("name"),Toast.LENGTH_LONG).show();
@@ -129,12 +127,9 @@ MoveToStats();
                 }
             }
         });
+
+        //tbc..
     }
-
-
-
-
-
 
 
 }

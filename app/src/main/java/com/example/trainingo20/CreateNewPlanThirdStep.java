@@ -42,7 +42,7 @@ public class CreateNewPlanThirdStep extends AppCompatActivity {
     private FirebaseUser user;
     private int slot;
     private ExerciseVolumeAdapter adapter;
-    private  ArrayList<Exercise> exercisesList;
+    private ArrayList<Exercise> exercisesList;
     private DocumentReference result;
     private String[] dataStep3 = new String[2];
 
@@ -56,17 +56,12 @@ public class CreateNewPlanThirdStep extends AppCompatActivity {
         user = FirebaseAuth.getInstance().getCurrentUser();
 
 
-
-
         Bundle bundle = getIntent().getExtras();
-        if(bundle != null)
-        {
-            if(bundle.containsKey("slot"))
-            {
+        if (bundle != null) {
+            if (bundle.containsKey("slot")) {
                 slot = bundle.getInt("slot");
             }
-            if(bundle.containsKey("planName"))
-            {
+            if (bundle.containsKey("planName")) {
                 dataStep3[1] = bundle.getString("planName");
             }
         }
@@ -75,9 +70,8 @@ public class CreateNewPlanThirdStep extends AppCompatActivity {
         listOfExercises = findViewById(R.id.listView_exercises_CreateNewPlanThirdStep);
 
 
-
-       final CollectionReference colTrainingPlans = db.collection("users").document(user.getUid()).collection("trainingPlans");
-
+        final CollectionReference colTrainingPlans = db.collection("users").document(user.getUid()).collection("trainingPlans");
+        //set exercises list created in second step, with data from database
         colTrainingPlans.whereEqualTo("slot", String.valueOf(slot)).limit(1)
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -90,17 +84,16 @@ public class CreateNewPlanThirdStep extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                 exercisesList = new ArrayList<Exercise>();
-                                if(task.isSuccessful())
-                                {
+                                if (task.isSuccessful()) {
                                     Exercise e;
                                     for (QueryDocumentSnapshot document : task.getResult()) {
                                         e = new Exercise(document.getString("name"));
-                                        exercisesList.add( e);
+                                        exercisesList.add(e);
                                     }
 
 
                                 }
-                                adapter = new ExerciseVolumeAdapter(CreateNewPlanThirdStep.this,R.layout.row_create_plan_set_volume,exercisesList);
+                                adapter = new ExerciseVolumeAdapter(CreateNewPlanThirdStep.this, R.layout.row_create_plan_set_volume, exercisesList);
                                 listOfExercises.setAdapter(adapter);
 
                             }
@@ -115,36 +108,22 @@ public class CreateNewPlanThirdStep extends AppCompatActivity {
         });
 
 
-
-
-
-
-
-
-
-
-
-
-
         savePlan = findViewById(R.id.button_savePlan_CreateNewPlanThirdStep);
-
 
 
         savePlan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(CheckAllFieldsOk(adapter)) {
+                if (CheckAllFieldsOk(adapter)) {
                     for (int i = 0; i < adapter.getCount(); i++) {
 
                         SaveDataToDB(adapter.getItem(i).getName(), adapter.getItem(i).getSeries(), adapter.getItem(i).getReps());
                     }
                     MoveBackToMyPlansAndSaveChanges();
 
-                }
-                else
-                {
+                } else {
 
-                    Toast.makeText(CreateNewPlanThirdStep.this,"Check series and reps fields",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CreateNewPlanThirdStep.this, "Check series and reps fields", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -154,16 +133,13 @@ public class CreateNewPlanThirdStep extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent i = new Intent(this,CreateNewPlanSecondStep.class);
-        i.putExtra("slot",slot);
+        Intent i = new Intent(this, CreateNewPlanSecondStep.class);
+        i.putExtra("slot", slot);
         startActivity(i);
     }
 
 
-
-
-    private void MoveBackToMyPlansAndSaveChanges()
-    {
+    private void MoveBackToMyPlansAndSaveChanges() {
         final CollectionReference colTrainingPlans = db.collection("users").document(user.getUid()).collection("trainingPlans");
 
         dataStep3[0] = String.valueOf(slot);
@@ -177,7 +153,7 @@ public class CreateNewPlanThirdStep extends AppCompatActivity {
                         //now use id of document
 
 
-                        myDocument.getReference().update("status","taken");
+                        myDocument.getReference().update("status", "taken");
                     }
                 } else {
                     // Log.d(TAG, "Error getting documents: ", task.getException());
@@ -185,84 +161,65 @@ public class CreateNewPlanThirdStep extends AppCompatActivity {
             }
         });
 
-        Intent i = new Intent(CreateNewPlanThirdStep.this,MyPlans.class);
+        Intent i = new Intent(CreateNewPlanThirdStep.this, MyPlans.class);
 
 
-        i.putExtra("dataStep3",dataStep3);
+        i.putExtra("dataStep3", dataStep3);
         startActivity(i);
 
     }
 
 
-
-
-    private void SaveDataToDB(final String name, final int series, final int reps)
-    {
+    private void SaveDataToDB(final String name, final int series, final int reps) {
         final CollectionReference colRef = db.collection("users").document(user.getUid()).collection("trainingPlans");
 
-        colRef.whereEqualTo("slot",String.valueOf(slot)).limit(1)
+        colRef.whereEqualTo("slot", String.valueOf(slot)).limit(1)
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful())
-                {
-                    for (final QueryDocumentSnapshot myDoc: task.getResult())
-                    {
+                if (task.isSuccessful()) {
+                    for (final QueryDocumentSnapshot myDoc : task.getResult()) {
                         Map<String, Object> data = new HashMap<>();
 
 
-
                         data.put("name", name);
-                        data.put("series",series);
-                        data.put("reps",reps);
-                            myDoc.getReference().collection("plan").whereEqualTo("name",name).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        data.put("series", series);
+                        data.put("reps", reps);
+                        myDoc.getReference().collection("plan").whereEqualTo("name", name).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
 
-                                    if(task.isSuccessful())
-                                    {
-                                        for(QueryDocumentSnapshot documentExercise : task.getResult())
-                                        {
-                                            documentExercise.getReference().update("series",series,"reps",reps);
-
-                                        }
+                                if (task.isSuccessful()) {
+                                    for (QueryDocumentSnapshot documentExercise : task.getResult()) {
+                                        documentExercise.getReference().update("series", series, "reps", reps);
 
                                     }
+
                                 }
-                            });
-
-
-
-
-
+                            }
+                        });
 
 
                     }
-                }
-                else
-                {
-                    Toast.makeText(CreateNewPlanThirdStep.this,task.getException().toString(),Toast.LENGTH_SHORT);
+                } else {
+                    Toast.makeText(CreateNewPlanThirdStep.this, task.getException().toString(), Toast.LENGTH_SHORT);
                 }
             }
         });
     }
 
-    private boolean CheckAllFieldsOk(ExerciseVolumeAdapter a)
-    {
+    private boolean CheckAllFieldsOk(ExerciseVolumeAdapter a) {
 
 
-        for(int i = 0 ;i<a.getCount();i++)
-        {
-           if(!a.getItem(i).getFieldOk())
-           {
-               return false;
-           }
+        for (int i = 0; i < a.getCount(); i++) {
+            if (!a.getItem(i).getFieldOk()) {
+                return false;
+            }
 
 
         }
         return true;
     }
-
 
 
 }
