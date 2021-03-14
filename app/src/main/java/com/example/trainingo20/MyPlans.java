@@ -7,8 +7,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -51,27 +53,32 @@ public class MyPlans extends AppCompatActivity {
                 dataArray = bundle.getStringArray("dataStep3");
                 SetNewName(dataArray[0], dataArray[1]);
             }
+            if(bundle.containsKey("deletedPlanSlot"))
+            {
+                SetNewName(String.valueOf(bundle.getInt("slot")), "+");
+            }
         }
 
 
         firstSlot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MoveToCreatePlan(1);
+
+                CheckIfSlotIsEmpty(1);
             }
         });
 
         secondSlot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MoveToCreatePlan(2);
+                CheckIfSlotIsEmpty(2);
             }
         });
 
         thirdSlot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MoveToCreatePlan(3);
+                CheckIfSlotIsEmpty(3);
             }
         });
 
@@ -79,7 +86,7 @@ public class MyPlans extends AppCompatActivity {
         fourthSlot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MoveToCreatePlan(4);
+                CheckIfSlotIsEmpty(4);
             }
         });
 
@@ -88,7 +95,31 @@ public class MyPlans extends AppCompatActivity {
             @Override
             public boolean onLongClick(View v) {
 
-                //tbc...
+                MoveToConfirmDeletePlan(1);
+                return true;
+            }
+        });
+        secondSlot.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+
+                MoveToConfirmDeletePlan(2);
+                return true;
+            }
+        });
+        thirdSlot.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+
+                MoveToConfirmDeletePlan(3);
+                return true;
+            }
+        });
+        fourthSlot.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+
+                MoveToConfirmDeletePlan(4);
                 return true;
             }
         });
@@ -108,8 +139,50 @@ public class MyPlans extends AppCompatActivity {
         startActivity(i);
 
     }
+    private void MoveToEditPlan(int slot) {
+        Intent i = new Intent(this, EditPlanFirstStep.class);
+        i.putExtra("slot", slot);
+        startActivity(i);
+
+    }
+    private void MoveToConfirmDeletePlan(int slot)
+    {
 
 
+
+        Intent i  = new Intent(this,ConfirmDeletePlan.class);
+        i.putExtra("slot",slot);
+        startActivity(i);
+
+    }
+
+    private void CheckIfSlotIsEmpty(final int slot) {
+
+
+
+
+
+        db.collection("users").document(user.getUid()).collection("trainingPlans").whereEqualTo("slot", String.valueOf(slot)).limit(1).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot qds : task.getResult()) {
+                        if (qds.getString("status").equals("taken")) {
+                            Toast.makeText(MyPlans.this, "taken", Toast.LENGTH_SHORT).show();
+                            MoveToEditPlan(slot);
+
+                        } else {
+                            Toast.makeText(MyPlans.this, "empty", Toast.LENGTH_SHORT).show();
+                            MoveToCreatePlan(slot);
+                            }
+                        }
+                    }
+
+                }
+
+
+            });
+    }
     private void SetNewName(String slot, String name)  // set new plan's name after creating or editing
     {
         switch (slot) {

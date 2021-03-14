@@ -9,7 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".DeleteExerciseFromCreatorList"></activity>
+        <activity android:name=".EditPlanSecondStep"></activity>
+        <activity android:name=".EditPlanFirstStep" />
+        <activity android:name=".ConfirmDeletePlan" />
+        <activity android:name=".DeleteExerciseFromCreatorList" />
         <activity android:name=".ExerciseChart" />
         <activity android:name=".Stats" />
         <activity android:name=".ChangePassword" />

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EditPlanFirstStep">
+
+
+    <ImageView
+        android:id="@+id/imageView_Logo_EditPlanFirstStep"
+        android:layout_width="346dp"
+        android:layout_height="66dp"
+        android:layout_marginTop="36dp"
+        android:src="@drawable/logo_main"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <EditText
+        android:id="@+id/editText_planname_EditPlanFirstStep"
+        android:layout_width="225dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="76dp"
+        android:background="@drawable/custom_edittext_round_rect"
+        android:ems="10"
+        android:fontFamily="@font/righteous"
+        android:hint="Plan name"
+        android:inputType="textPersonName"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView_Logo_EditPlanFirstStep" />
+
+    <EditText
+        android:id="@+id/editText_about_EditPlanFirstStep"
+        android:layout_width="225dp"
+        android:layout_height="190dp"
+        android:layout_marginTop="28dp"
+        android:layout_weight="1"
+        android:background="@drawable/custom_edittext_round_rect"
+        android:firstBaselineToTopHeight="20dp"
+        android:fontFamily="@font/righteous"
+        android:gravity="top|left"
+        android:hint="About"
+        android:inputType="textMultiLine"
+        android:lastBaselineToBottomHeight="20dp"
+        android:maxLength="144"
+        android:maxLines="8"
+        android:padding="10dp"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_redhintname_EditPlanFirstStep" />
+
+    <Button
+        android:id="@+id/button_next_EditPlanFirstStep"
+        android:layout_width="116dp"
+        android:layout_height="55dp"
+        android:background="@drawable/custom_button_round_rect"
+        android:fontFamily="@font/righteous"
+        android:text="Next"
+        android:textAllCaps="false"
+        android:textColor="#ffffff"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+
+        app:layout_constraintTop_toBottomOf="@+id/textView_redhintabout_EditPlanFirstStep"
+        app:layout_constraintVertical_bias="0.351" />
+
+
+
+    <TextView
+        android:id="@+id/textView_redhintname_EditPlanFirstStep"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:fontFamily="@font/righteous"
+        android:textColor="#cc5055"
+        android:textSize="13sp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText_planname_EditPlanFirstStep" />
+
+    <TextView
+        android:id="@+id/textView_redhintabout_EditPlanFirstStep"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/righteous"
+        android:gravity="center"
+        android:textColor="#cc5055"
+        android:textSize="13sp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText_about_EditPlanFirstStep" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
