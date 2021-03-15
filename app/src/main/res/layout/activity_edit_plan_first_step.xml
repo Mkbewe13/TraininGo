@@ -55,25 +55,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView_redhintname_EditPlanFirstStep" />
 
+
     <Button
         android:id="@+id/button_next_EditPlanFirstStep"
         android:layout_width="116dp"
         android:layout_height="55dp"
+        android:layout_marginTop="44dp"
         android:background="@drawable/custom_button_round_rect"
         android:fontFamily="@font/righteous"
         android:text="Next"
         android:textAllCaps="false"
         android:textColor="#ffffff"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
+
         app:layout_constraintStart_toStartOf="parent"
-
-        app:layout_constraintTop_toBottomOf="@+id/textView_redhintabout_EditPlanFirstStep"
-        app:layout_constraintVertical_bias="0.351" />
-
-
+        app:layout_constraintTop_toBottomOf="@+id/textView_redhintabout_EditPlanFirstStep" />
 
     <TextView
         android:id="@+id/textView_redhintname_EditPlanFirstStep"
@@ -100,5 +98,23 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editText_about_EditPlanFirstStep" />
+
+    <Button
+        android:id="@+id/button_cancel_EditPlanFirstStep"
+        android:layout_width="116dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/custom_button_round_rect"
+        android:fontFamily="@font/righteous"
+        android:text="Cancel"
+        android:textAllCaps="false"
+        android:textColor="#ffffff"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_next_EditPlanFirstStep"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -63,7 +63,6 @@ public class MyPlans extends AppCompatActivity {
         firstSlot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 CheckIfSlotIsEmpty(1);
             }
         });
