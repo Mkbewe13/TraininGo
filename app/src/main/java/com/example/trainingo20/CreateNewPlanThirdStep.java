@@ -43,7 +43,6 @@ public class CreateNewPlanThirdStep extends AppCompatActivity {
     private int slot;
     private ExerciseVolumeAdapter adapter;
     private ArrayList<Exercise> exercisesList;
-    private DocumentReference result;
     private String[] dataStep3 = new String[2];
 
 
